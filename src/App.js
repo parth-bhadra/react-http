@@ -38,15 +38,18 @@ function App() {
       setError(error.message);
     }
     setIsLoading(false);
-  })
+  }, [])
+  // useCallback also requires dependencies to be added
+  // there are none in this case as fetch api is browser api, not a dependency
+  // other than that you have the state updating functions, which react guarantees won't change
 
-  useEffect(() => {
-    fetchMoviesHandler();
-  }, [fetchMoviesHandler]);
+   useEffect(() => {
+     fetchMoviesHandler();
+   }, [fetchMoviesHandler]);
   // without any dependecies, component will load the first time the page loads
   // but as fetchMoviesHandler modifies states in the app component
   // clicking the button >> fetchMoviesHandler >> 
-  
+
   let content;
 
   if (isLoading)
