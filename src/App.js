@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import MoviesList from './components/MoviesList';
 import './App.css';
@@ -10,7 +10,7 @@ function App() {
   const [error, setError] = useState(null);
   const transformedData = [];
 
-  const fetchMoviesHandler = async () => {
+  const fetchMoviesHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
@@ -38,7 +38,15 @@ function App() {
       setError(error.message);
     }
     setIsLoading(false);
-  }
+  })
+
+  useEffect(() => {
+    fetchMoviesHandler();
+  }, [fetchMoviesHandler]);
+  // without any dependecies, component will load the first time the page loads
+  // but as fetchMoviesHandler modifies states in the app component
+  // clicking the button >> fetchMoviesHandler >> 
+  
   let content;
 
   if (isLoading)
